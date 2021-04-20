@@ -1,13 +1,17 @@
+
+
 const randomFolks = document.querySelector(".random-peeps");
-const getData = async function () {
-    const usersRequest = await fetch ("https://randomuser.me/api?results=5");
+const selectUserNumber = document.querySelector("#users");
+
+const getData = async function (numUsers) {
+    const usersRequest = await fetch(`https://randomuser.me/api?results=${numUsers}`);
     const data = await usersRequest.json();
     const userResults = data.results;
 
-    displayUsers(usersResults);
+    displayUsers(userResults);
 };
 
-getData();
+getData(1);
 
 
 const displayUsers = function (userResults) {
@@ -16,6 +20,7 @@ const displayUsers = function (userResults) {
         const country = user.location.country;
         const name = user.name.first;
         const imageUrl = user.picture.medium;
+        const userDiv = document.createElement("div");
         userDiv.innerHTML = `
             <h3>${name}</h3>
             <p>${country}</p>
@@ -25,3 +30,9 @@ const displayUsers = function (userResults) {
 }
 };
 
+
+selectUserNumber.addEventListener("change", function (e) {
+    const numUsers = e.target.value;
+    getData(numUsers);
+
+});
